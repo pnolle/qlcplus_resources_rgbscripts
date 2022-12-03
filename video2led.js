@@ -68,6 +68,9 @@ var testAlgo;
 
       // algo.setFrames(videoDump.length);
 
+      
+      console.log("jsonVid dim", jsonVid.length, jsonVid[0].length, jsonVid[0][0].length)
+
       util.initialized = true;
     };
 
@@ -78,70 +81,21 @@ var testAlgo;
         util.initialize();
       }
 
-      var map = new Array(height);
+      var map = []; //new Array(height);
 
-      for (var y = 0; y < height; y++)
-      {
-        map[y] = new Array();
-        for (var x = 0; x < width; x++)
-        {
-          if (algo.orientation === 0)
-          {
-            if (step < height)
-            {
-              if (y <= step) {
-                  map[y][x] = rgb;
-              } else {
-                  map[y][x] = 0;
-              }
-            }
-            else
-            {
-              if (y > step - height) {
-                  map[y][x] = rgb;
-              } else {
-                  map[y][x] = 0;
-              }
-            }
-          }
-          else
-          {
-            if (step < width)
-            {
-              if (x <= step) {
-                  map[y][x] = rgb;
-              } else {
-                  map[y][x] = 0;
-              }
-            }
-            else
-            {
-              if (x > step - width) {
-                  map[y][x] = rgb;
-              } else {
-                  map[y][x] = 0;
-              }
-            }
-          }
-        }
+      console.log(width, height);
+      for (let h = 0; h < height; h++) {
+        console.log(`jsonvid[${step}][${h}]`, jsonVid[step][h].slice(0, width));
+        const row = jsonVid[step][h].slice(0, width);
+        map.push(row);
       }
-
-      // dummy
-      // map[0][0] = parseInt(rgb+Math.random()*255);
-      // map[0][0] = 9999999;
-      map[0][0] = jsonVid[0][0][10*step];
-      console.log("rgb value", map[0][0], "step", step, jsonVid[0][0].length)
 
       return map;
     };
 
     algo.rgbMapStepCount = function(width, height)
     {
-      if (algo.orientation === 1) {
-          return (width * 2) - 1;
-      } else {
-          return (height * 2) - 1;
-      }
+      return jsonVid.length;
     };
 
     // Development tool access
